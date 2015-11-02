@@ -63,6 +63,7 @@
           try {
             json = JSON.parse(json);
           } catch (e) {
+            console.log("mailchimp: Error parsing Mailchimp API response as JSON. Was:\n" + res.headers + "\nBody:\n" + json);
             json = {
               status: 'error',
               name: 'GeneralError',

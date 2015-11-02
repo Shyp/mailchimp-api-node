@@ -35,7 +35,7 @@ class exports.Mailchimp
             if parts.length == 2
                 dc = parts[1]
             OPTS.host = dc + '.' + OPTS.host;
-        
+
         params = new Buffer(JSON.stringify(params), 'utf8')
 
         if @debug then console.log("Mailchimp: Opening request to https://#{OPTS.host}#{OPTS.prefix}#{uri}.json")
@@ -52,8 +52,9 @@ class exports.Mailchimp
                 try
                     json = JSON.parse(json)
                 catch e
+                    console.error "mailchimp: Error parsing Mailchimp API response as JSON. Was:\n#{res.headers}\nBody:\n#{json}"
                     json = {status: 'error', name: 'GeneralError', error: e}
-                
+
                 json ?= {status: 'error', name: 'GeneralError', error: 'An unexpected error occurred'}
                 if res.statusCode != 200
                     if onerror then onerror(json) else @onerror(json)
@@ -71,7 +72,7 @@ class exports.Mailchimp
 
     onerror: (err) ->
         throw {name: err.name, error: err.error, toString: -> "#{err.name}: #{err.error}"}
-        
+
     parseArgs: (params, onsuccess, onerror) ->
         return [params, onsuccess, onerror] if typeof params isnt 'function'
         [params, onsuccess, onerror] = [{}, params, onsuccess]
@@ -2066,5 +2067,3 @@ class Gallery
         params["opts"] ?= []
 
         @master.call('gallery/list', params, onsuccess, onerror)
-
-
