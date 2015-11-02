@@ -10,7 +10,9 @@
   },
   "main": "mailchimp",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "coffee-script": "1.2.0"
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"
